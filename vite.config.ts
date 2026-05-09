@@ -1,18 +1,17 @@
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { createClient } from '@supabase/supabase-js'
+import type { Database } from './types'
 
-// Redirect TanStack Start's bundled server entry to src/server.ts
-export default defineConfig({
-  tanstackStart: {
-    server: {
-      entry: "server",
-    },
-  },
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
+const SUPABASE_PUBLISHABLE_KEY =
+  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
 
-  vite: {
-    server: {
-      host: "0.0.0.0",
-      port: 8080,
-      allowedHosts: ["tasknestai-production.up.railway.app"],
+export const supabase = createClient<Database>(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY,
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
     },
-  },
-});
+  }
+)
