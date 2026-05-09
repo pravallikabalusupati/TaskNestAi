@@ -1,17 +1,16 @@
-import { createClient } from '@supabase/supabase-js'
-import type { Database } from './types'
+import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
-const SUPABASE_PUBLISHABLE_KEY =
-  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
-
-export const supabase = createClient<Database>(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY,
-  {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
+export default defineConfig({
+  tanstackStart: {
+    server: {
+      entry: "server",
     },
-  }
-)
+  },
+
+  vite: {
+    server: {
+      host: "0.0.0.0",
+      allowedHosts: ["tasknestai-production.up.railway.app"],
+    },
+  },
+});
